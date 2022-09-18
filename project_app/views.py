@@ -6,21 +6,27 @@ from .models import Supply
 import json
 
 def up_base(datasheets, price_ru):
+    """
+    :param datasheets:
+    :type list(list):
+    :param price_ru:
+    :type float:
+    """
     for item in datasheets:
         if Supply.objects.filter(order_id=item[1]):
             suppply_current = Supply.objects.get(order_id=item[1])
-            suppply_current.price_usd=item[2]
-            suppply_current.price_ru=round(int(item[2])*float(price_ru.replace(',', '.')), 5)
+            suppply_current.price_usd=float(item[2])
+            suppply_current.price_ru=round(float(item[2])*price_ru, 5)
             suppply_current.date_supply='{2}-{1}-{0}'.format(*str(item[3]).split('.'))
             suppply_current.save()
         else:    
             suppply_current = Supply(
                                 order_id=item[1],
                                 price_usd=item[2],
-                                price_ru=round(int(item[2])*float(price_ru.replace(',', '.')), 5),
+                                price_ru=round(float(item[2])*price_ru, 5),
                                 date_supply='{2}-{1}-{0}'.format(*str(item[3]).split('.')))
             suppply_current.save()
-            item.append(round(int(item[2])*float(price_ru.replace(',', '.')), 5))
+            item.append(round(int(item[2])*price_ru, 5))
 
 def supply_lists(request):
     data = [{'id':i.id, 
