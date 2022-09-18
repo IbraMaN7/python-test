@@ -3,6 +3,7 @@ from pathlib import Path
 
 from celery.schedules import crontab
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -122,3 +123,6 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute="*/1"),
     },
 }
+
+SCOPES = ['https://www.googleapis.com/auth/drive']
+SPREADSHEET_ID = '1z2GZ-R9MZwiEhBLo85hkWL6Om8bQKG1cNsm837H37bk'
